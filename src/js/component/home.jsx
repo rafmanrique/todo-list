@@ -1,25 +1,58 @@
-import React from "react";
+import React, { useState } from "react";
+import TodoTasks from "./todoTasks.jsx";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
-
-//create your first component
 const Home = () => {
+	let initialState = "";
+
+	const [tasks, setTasks] = useState([]);
+	const [newTask, setNewTask] = useState(initialState);
+
+	const handleAddTask = () => {
+		if (newTask.trim() != "") {
+			setTasks([...tasks, newTask]);
+			setNewTask(initialState);
+		} else alert("You need to add a Task");
+	};
+
+	const handleChange = (e) => {
+		setNewTask(e.target.value);
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+	};
+
+	const handleDelete = (id) => {
+		let newList = tasks.filter((item, index) => index != id);
+
+		setTasks(newList);
+	};
+
 	return (
-		<div>
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
-		</div>
+		<>
+			<header>
+				<h1>Task List 2022 (You have {tasks.length} tasks pending)</h1>
+				<form id="new-task-form" onSubmit={handleSubmit}>
+					<input
+						type="text"
+						name="newTask"
+						id="new-task-input"
+						placeholder="Add a New Task"
+						onChange={handleChange}
+						value={newTask}
+					/>
+					<button
+						type="button"
+						id="new-task-submit"
+						onClick={handleAddTask}>
+						Add Task
+					</button>
+				</form>
+			</header>
+			<main>
+				<TodoTasks tasks={tasks} handleDelete={handleDelete} />
+			</main>
+		</>
 	);
 };
 
