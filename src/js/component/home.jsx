@@ -31,7 +31,19 @@ const Home = () => {
 	return (
 		<>
 			<header>
-				<h1>Task List 2022 (You have {tasks.length} tasks pending)</h1>
+				<h1>
+					{tasks.length != 0 ? (
+						<>
+							Task List 2022 (You have {tasks.length} tasks
+							pending)
+						</>
+					) : (
+						<>
+							Task List 2022 (You don't have any tasks, please add
+							one)
+						</>
+					)}
+				</h1>
 				<form id="new-task-form" onSubmit={handleSubmit}>
 					<input
 						type="text"
